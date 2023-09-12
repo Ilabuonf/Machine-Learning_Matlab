@@ -1,0 +1,36 @@
+#Si supponga di lanciare un dado a 10 facce (trapezoedro pentagonale) 100 volte e di ottenere i seguenti risultati:
+#1:  20 
+#2:  5
+#3:  15
+#4:  2
+#5:  3
+#6:  25
+#7:  10
+#8:  5
+#9:  12
+#10: 3
+#E' possibile affermare che la distribuzione dei risultati sia coerente con quella di un dado non truccato?
+#Si esplicitino i vettori obs ed expt, contenenti rispettivamente le osservazioni misurate dai lanci del dato e i valori attesi, il numero di gradi di libertà dentro una variabile df.
+#Si calcoli il valore del  dentro una variabile chi2.
+#Si imposti il livello di significatività del test,  a 0.05, utilizzando una variabile alpha.
+#Si calcoli il valore critico del  associato, , e lo si scriva dentro la variabile chi2_alpha.
+#Si calcoli il p-value ottenuto e lo si scriva dentro la variabile p_val.
+#Si scriva il risultato del test in questo modo:  1, se l'ipotesi nulla risulta rifiutata; 0 se l'ipotesi nulla risulta accettata. Si utilizzi una variabile di tipo logical denominata res.
+
+% obs = ?
+% expt = ?
+% df = ?
+% chi2 = ?
+% alpha = ?
+% chi2_alpha = ?
+% p_val = ?
+% res = ?
+
+obs=[20;5;15;2;3;25;10;5;12;3];
+expt=sum(obs)/numel(obs)*ones(size(obs));
+df=numel(expt)-1;
+chi2=sum((obs-expt).^2./expt);
+alpha=0.05;
+chi2_alpha=chi2inv(1-alpha,df);
+p_val=chi2pdf(chi2,df); 
+res=chi2>chi2_alpha;
