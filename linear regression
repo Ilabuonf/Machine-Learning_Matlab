@@ -1,0 +1,45 @@
+#tableCOVID è una MATLAB table che contiene i dati di evoluzione del COVID in Italia. t rappresenta il tempo (in giorni), mentre y il numero di persone contagiate in quel momento.
+#Si effettuino le seguenti operazioni (utilizzando, dove necessario, le opportune funzioni di libreria di MATLAB):
+#Si estraggano due vettori t e y dalle colonne della table.
+#Si normalizzi il vettore y utilizzando il logaritmo naturale. Si salvi il risultato in un nuovo vettore, y_log.
+#Si effettui uno studio di regressione polinomiale, utilizzando dei polinomi di grado compreso tra 1 e 3. Si memorizzino i coefficienti dei polinomi nelle variabili p1, p2, p3.
+#Si calcoli l'output di questi polinomi sul vettore t. Si salvino i risultati nelle variabili y_pred_1, y_pred_2, y_pred_3.
+#Si calcoli l'errore quadratico medio tra ciascun vettore delle predizioni e il vettore y_log. Si salvino i risultati nelle variabili MSE_1, MSE_2, MSE_3.
+
+tableCOVID = readtable('covid_data_italy.csv');
+% t = ?
+% y = ?
+% y_log = ?
+% p1 = ?
+% p2 = ?
+% p3 = ?
+% y_pred_1 = ?
+% y_pred_2 = ?
+% y_pred_3 = ?
+% MSE_1 = ?
+% MSE_2 = ?
+% MSE_3 = ?
+
+t=tableCOVID.t;
+y=tableCOVID.y;
+
+y_log=log(y);
+[p1,S1]=polyfit(t,y_log,1);
+[p2,S2]=polyfit(t,y_log,2);
+[p3,S3]=polyfit(t,y_log,3);
+%output
+p1
+p2
+p3
+
+[y_pred_1,delta1]=polyval(p1,t,S1);
+[y_pred_2,delta2]=polyval(p2,t,S2);
+[y_pred_3,delta3]=polyval(p3,t,S3);
+%output
+y_pred_1
+y_pred_2
+y_pred_3
+
+MSE_1=mean((y_log-y_pred_1).^2)
+MSE_2=mean((y_log-y_pred_2).^2)
+MSE_3=mean((y_log-y_pred_3).^2)
