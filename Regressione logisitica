@@ -1,0 +1,74 @@
+% Si consideri il seguente problema di classificazione, utilizzando il dataset dataset_nn.mat:
+% Features (from 699 biopsies):
+% 1. Clump thickness
+% 2. Uniformity of cell size
+% 3. Uniformity of cell shape
+% 4. Marginal Adhesion
+% 5. Single epithelial cell size
+% 6. Bare nuclei
+% 7. Bland chomatin
+% 8. Normal nucleoli
+% 9. Mitoses
+% Target variable:
+% Benign cancer, y=0
+% Malignant cancer, y=1
+% Allo scopo di realizzare un classificatore, si vuole fare il fit dei parametri mediante un regressore logistico.
+% Si utilizzi una opportuna funzione di libreria di MATLAB, tenendo in considerazione che il dataset è piccolo. Si noti che il dataset fornito è già diviso in train e test set.
+% Si specifichi il tipo di link e il tipo di distribuzione da utilizzare per questo modello lineare generalizzato dentro le variabili link_type e distribution_type.
+% Si calcoli l'output del modello ottenuto sul train e sul test set. Si salvi il risultato nelle variabili Y_train_pred e Y_test_pred.
+% Si utilizzi una soglia pari a 0.5 e si calcolino i risultati binarizzati nelle variabili Y_train_pred_bin e Y_test_pred_bin.
+% Si calcolino le matrici di confusione sul train e sul test set. Si scrivano come commento delle osservazioni sulle matrici di confusione calcolate. 
+% Si determinino, per il test set, veri positivi, veri negativi, falsi positivi e falsi negativi. Si utilizzino le variabili tp, tn, fp, fn. Successivamente si determinino accuracy, precision, recall, f1 measure. Si salvino queste misure di qualità dentro le variabili acc, prec, recall, f1.
+
+
+load('dataset_nn.mat');
+
+% link_type = ?
+% distribution_type = ?
+% Y_train_pred = ?
+% Y_test_pred = ?
+% Y_train_pred_bin = ?
+% Y_test_pred_bin = ?
+% tp = ?
+% tn = ?
+% fp = ?
+% fn = ?
+% acc = ?
+% prec = ?
+% recall = ? 
+% f1 = ?
+
+x_train = x_train';
+y_train= t_train';
+x_test = x_test';
+y_test = t_test';
+%da traccia 
+link_type ='logit';
+distribution_type = 'binomial';
+%fa il fit dei parametri mediante un regressore logistico
+model= fitglm(x_train,y_train,'Link',link_type,'Distribution',distribution_type);
+%calcola l'output del modello ottenuto sul train e sul test set
+[Y_train_pred, score_train] = model.predict(x_train) ;
+[Y_test_pred, score_test] = model.predict(x_test);
+%calcola i risultati binarizzati nelle variabili 
+Y_train_pred_bin = double(Y_train_pred >= 0.5); %0.5 da traccia
+Y_test_pred_bin = double(Y_test_pred >= 0.5);
+%calcola le matrici di confusione sul train e sul test set
+cm_train = confusionmat(y_train,Y_train_pred_bin);
+confusionchart(cm_train, {'Benign (Negative)','Malignant (Positive)'});
+accuracy_train = (cm_train(1,1)+cm_train(2,2))/sum(cm_train(:));
+cm_test = confusionmat(y_test,Y_test_pred_bin);
+confusionchart(cm_test, {'Benign (Negative)','Malignant (Positive)'});
+accuracy_test = (cm_test(1,1)+cm_test(2,2))/sum(cm_test(:));
+%determina per il test set veri positivi, veri negativi, falsi positivi e falsi negativi
+tp = cm_test(2, 2)
+tn = cm_test(1, 1)
+fp = cm_test(1, 2)
+fn = cm_test(2, 1)
+%determina accuracy, precision, recall, f1 measure
+acc = (tp+tn)/(tp+fp+fn+tn)
+prec = tp/(tp+fp)
+recall = tp/(tp+fn)
+f1 = 2*prec*recall/(prec+recall)
+
+
