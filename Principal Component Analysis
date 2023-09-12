@@ -1,0 +1,20 @@
+#Si scriva una funzione my_pca per effettuare la PCA nel seguente modo:
+#La funzione deve accettare una sola variabile di ingresso (la matrice X).
+#La funzione deve restituire tre variabili: gli autovettori della matrice di covarianza, V; la matrice X proiettata nello spazio della PCA, X_PCA; gli autovalori della matrice di covarianza, D.
+#La matrice X deve essere centrata esternamente alla funzione definita.
+#Si calcoli esplicitamente la matrice di covarianza e se ne determinino autovalori ed autovettori utilizzando le opportune funzioni di libreria di MATLAB.
+
+rng 'default'
+M = 7; % Number of observations
+N = 5; % Number of variables observed
+X = rand(M,N);
+X = X - mean(X);
+[V, X_PCA, D] = my_pca(X);
+
+function [V, X_PCA, D] = my_pca(X)
+C=cov(X);
+[V,D]=eig(C);
+[D,order]=sort(diag(D),'descend');
+V=V(:,order);
+X_PCA=X*V;
+end
