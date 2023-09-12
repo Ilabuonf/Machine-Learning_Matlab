@@ -1,0 +1,55 @@
+% hospital.mat è un file MATLAB che contiene dei dati demografici e clinici relativi a pazienti che sono stati ricoverati in un ospedale. Sulle righe sono presenti i pazienti, mentre sulle colonne sono presenti le variabili di interesse.
+% Si effettuino le seguenti operazioni (utilizzando, dove necessario, le opportune funzioni di libreria di MATLAB):
+% Salvare in una variabile age i dati relativi all'età dei pazienti memorizzati nella variabile "Age". Si individui il paziente con l'età più alta e si salvi il valore dentro la variabile maxval e l'indice di questo paziente dentro una variabile idx.
+% Si calcolino i quartili della variabile "Age" e si salvino dentro le variabili q1, q2, q3.
+% Si calcoli il range interquartile e si salvi dentro la variabile iqr.
+% Si trovino gli outliers utilizzando il seguente criterio:  è un outlier se  or . Si memorizzino gli indici degli outlier dentro una variabile index_outliers e i valori degli outlier dentro una variabile value_outliers.
+% Salvare in una variabile weight i dati relativi al peso dei pazienti memorizzati nella variabile "Weight". Si calcoli il valore massimo, il valore minimo, il valore medio e la deviazione standard dei valori della variabile "Weight" utilizzando le variabili max_w, min_w, mean_w, dev_w.
+% Salvare in una variabile sex i dati relativi al genere dei pazienti memorizzati nella variabile "Sex" (suggerimento: utilizzare la funzione di libreria string per convertire i valori nominali originali in valori stringa). Memorizzare il numero complessivo di pazienti di genere maschile nella variabile men e il numero complessivo di pazienti di genere femminile nella variabile women.
+
+load hospital.mat
+% maxval = ?
+% idx = ? 
+% q1 = ? 
+% q2 = ? 
+% q3 = ?
+% iqr = ?
+% index_outliers = ?
+% value_outliers = ?
+% max_w = ?
+% min_w = ?
+% mean_w = ?
+% dev_w = ?
+% men = ?
+% women = ?
+
+age=hospital.Age;
+[maxval,idx]=max(age);
+
+quartili=quantile(age,[0.25,0.5,0.75]);
+q1=quartili(1);
+q2=quartili(2);
+q3=quartili(3);
+iqr=q3-q1;
+
+index_outliers=[];
+value_outliers=[];
+num_age=numel(age);
+for i=1:num_age
+    if age(i)<(q1-1.5*iqr) || age(i)>(q3+1.5*iqr)
+        index_outliers(end+1)=i
+        value_outliers(end+1)=age(i)
+    end
+end
+index_outliers;
+value_outliers;
+
+weight=hospital.Weight;
+max_w = max(weight);
+min_w = min(weight);
+mean_w = mean(weight);
+dev_w = std(weight);
+
+sex=string(hospital.Sex);
+women=sum(count(sex,'Female'));
+men=sum(count(sex,'Male'));
