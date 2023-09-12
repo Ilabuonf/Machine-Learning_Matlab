@@ -1,0 +1,44 @@
+#tableGenes è una MATLAB table che contiene dei dati di espressione genica relativi a pazienti con cancro alla prostata. Sulle righe sono presenti i geni, mentre sulle colonne i pazienti.
+#Si effettuino le seguenti operazioni (utilizzando, dove necessario, le opportune funzioni di libreria di MATLAB):
+#Si individui il gene che ha la deviazione standard più alta. Si salvi l'indice di questo gene dentro una variabile idx.
+#Si salvi il logaritmo in base 2 della riga relativa al gene con deviazione standard più elevata dentro una variabile gene_array. Per i punti successivi si fa riferimento a questo array.
+#Si calcolino i quartili e si salvino dentro le variabili q1, q2, q3.
+#Si calcoli il range interquartile e si salvi dentro la variabile iqr.
+#Si trovino gli outliers utilizzando il seguente criterio:  è un outlier se  or . Si memorizzino gli indici degli outlier dentro una variabile index_outliers e i valori degli outlier dentro una variabile value_outliers.
+
+tableGenes = readtable('matrix_seminario', ...
+                       'PreserveVariableNames',true, ...
+                       'ReadRowNames',true);
+% idx = ? 
+% gene_array = ?
+% q1 = ? 
+% q2 = ? 
+% q3 = ?
+% iqr = ?
+% index_outliers = ?
+% value_outliers = ?
+
+
+[stds,idxs]=sort(std(tableGenes{:,:}'),'descend');
+max_dev=max(stds);
+idx=idxs(1);
+
+gene_array=log2(tableGenes{idx,:});
+n=numel(gene_array)
+
+quartili=quantile(gene_array,[0.25,0.5,0.75]);
+q1=quartili(1)
+q2=quartili(2)
+q3=quartili(3)
+
+iqr=q3-q1
+index_outliers=[];
+value_outliers=[];
+for i=1:n
+    if (gene_array(i) < (q1-1.5*iqr)) || (gene_array(i)> (q3+1.5*iqr))
+        value_outliers(end+1)=gene_array(i);
+        index_outliers(end+1)=i;
+    end
+end
+index_outliers
+value_outliers
