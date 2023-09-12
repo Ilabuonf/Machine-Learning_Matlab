@@ -1,0 +1,39 @@
+#Il dataset "kmeansdata.mat" contiene una matrice X di dimensione 560x4. Allo scopo di effettuare la PCA, si centri la matrice X e si scriva il risultato dentro la variabile X_centered. Si utilizzi una opportuna funzione di libreria per effettuare la PCA della matrice X_centered. 
+#Si scriva la matrice proiettata nello spazio della PCA dentro una variabile X_PCA. Si riduca la matrice X_PCA usando il minor numero di componenti principali num_pc tali da preservare il 99% della varianza, salvando questa nuova matrice dentro una variabile X_reduced. 
+#Si effettui un clustering k-means della matrice così ottenuta, utilizzando un numero clusters num_clusters pari a 5 e un numero massimo di iterazioni max_iters pari a 25.
+#Si salvino gli indici ottenuti dal k-means dentro la variabile idx e i centroidi finali dentro la variabile C1.
+#Si utilizzino le variabili X_r1, X_r2, X_r3, X_r4, X_r5 per salvare i risultati del clustering, in base alla variabile idx ottenuta precedentemente.
+
+load kmeansdata.mat
+rng(0)
+% X_centered   = ?
+% X_PCA        = ?
+% num_pc       = ?
+% X_reduced    = ?
+% num_clusters = ?
+% max_iters    = ?
+% idx  = ?
+% C1   = ?
+% X_r1 = ?
+% X_r2 = ?
+% X_r3 = ?
+% X_r4 = ?
+
+X_centered=X-mean(X);
+[coeff,score,latent,tsquared,explained]=pca(X_centered,'Centered',false);
+X_PCA=X_centered*coeff;
+
+min_var=99;
+sum_exp=cumsum(explained);
+num_pc=find(sum_exp>min_var,1)
+X_reduced=X_PCA(:,1:num_pc);
+
+num_clusters=5;
+max_iters=25;
+
+[idx,C1]=kmeans(X_reduced,num_clusters,'MaxIter',max_iters);
+X_r1 = X_reduced(idx==1,:);
+X_r2 = X_reduced(idx==2,:);
+X_r3 = X_reduced(idx==3,:);
+X_r4 = X_reduced(idx==4,:);
+X_r5 = X_reduced(idx==5,:);
